@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpiqgpuxouu48"]
-
-[ext_resource type="Texture2D" uid="uid://tvgnbw25gh4a" path="res://assets/images/sprites/leafcat.png" id="1_0f3ei"]
-
-[node name="SpriteBase" type="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_0f3ei")
