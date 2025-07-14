@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://tvgnbw25gh4a" path="res://assets/images/sprites/leafcat.png" id="1_0f3ei"]
 [ext_resource type="Script" uid="uid://kvguboxb64ly" path="res://scripts/entities/beast/BeastBase.gd" id="1_mbyv8"]
-[ext_resource type="Resource" uid="uid://bh1oy8q27tmvd" path="res://resources/beasts/generic_beast.tres" id="2_8hh5t"]
+[ext_resource type="Resource" uid="uid://bh1oy8q27tmvd" path="res://resources/beasts/GenericBeast.tres" id="2_8hh5t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6d5ps"]
 size = Vector2(334, 263)

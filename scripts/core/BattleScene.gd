@@ -2,12 +2,17 @@ extends Node2D
 
 @onready var tile_map_layer: TileMapLayer = $TileMapLayer
 @onready var units: Node2D = $units
-@onready var beast_base: Node2D = $units/BeastBase
+var player_beast: Node2D = null
+
+func _on_beast_ready(beast_node):
+	print("收到了来自 ", beast_node.name, " 的通知！")
+	self.player_beast = beast_node
 
 func _ready() -> void:
+	await self.ready 
 	var grid_pos = Vector2i(2,5)
 	var pixel_pos = tile_map_layer.map_to_local(grid_pos)
-	beast_base.position = pixel_pos
+	player_beast.position = pixel_pos
 
 var selected_beast = null
 func _input(event: InputEvent) -> void:

@@ -1,5 +1,8 @@
 extends Node2D
 
+# 在脚本顶部定义一个信号，它会传递一个参数，就是节点自己
+signal ready_and_initialized(beast_node)
+
 @export var data: BeastData
 var current_hp: int
 var current_stamina: int = 0
@@ -10,8 +13,9 @@ func _ready():
 	if data:
 		current_hp = data.max_hp
 		# 我们可以顺便把节点名字也改了，方便调试
-		#self.name = data.beast_name
+		self.name = data.beast_name
 		print("初始化精灵 ", self.name)
+		emit_signal("ready_and_initialized", self)
 	else:
 		print("警告：精灵 ", self.name, " 没有分配BeastData！")
 

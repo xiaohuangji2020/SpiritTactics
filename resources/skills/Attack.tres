@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SkillData" load_steps=2 format=3 uid="uid://fbg80dc8lgcc"]
+
+[ext_resource type="Script" uid="uid://c1oplwgao11bv" path="res://scripts/data/SkillData.gd" id="1_1v4a5"]
+
+[resource]
+script = ExtResource("1_1v4a5")
+skill_name = "飞叶快刀"
+stamina_cost = 7
+damage = 25
+range = 1
+metadata/_custom_type_script = "uid://c1oplwgao11bv"
