@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://bpiqgpuxouu48"]
+[gd_scene load_steps=5 format=3 uid="uid://bpiqgpuxouu48"]
 
 [ext_resource type="Texture2D" uid="uid://tvgnbw25gh4a" path="res://assets/images/sprites/leafcat.png" id="1_0f3ei"]
-[ext_resource type="Script" uid="uid://kvguboxb64ly" path="res://scripts/sprites/BeastBase.gd" id="1_mbyv8"]
+[ext_resource type="Script" uid="uid://kvguboxb64ly" path="res://scripts/entities/beast/BeastBase.gd" id="1_mbyv8"]
+[ext_resource type="Resource" uid="uid://bh1oy8q27tmvd" path="res://resources/beasts/generic_beast.tres" id="2_8hh5t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6d5ps"]
 size = Vector2(334, 263)
 
-[node name="BeastBase" type="Node2D"]
+[node name="BeastBase" type="Node2D" groups=["beasts"]]
 script = ExtResource("1_mbyv8")
+data = ExtResource("2_8hh5t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_0f3ei")

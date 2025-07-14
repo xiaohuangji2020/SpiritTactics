@@ -1,22 +1,13 @@
 extends Node2D
 
 @onready var tile_map_layer: TileMapLayer = $TileMapLayer
-@onready var beast_base: Node2D = $TileMapLayer/BeastBase
-
+@onready var units: Node2D = $units
+@onready var beast_base: Node2D = $units/BeastBase
 
 func _ready() -> void:
 	var grid_pos = Vector2i(2,5)
 	var pixel_pos = tile_map_layer.map_to_local(grid_pos)
 	beast_base.position = pixel_pos
-
-#func _unhandled_input(event: InputEvent) -> void:
-	#if selected_beast != null and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			#var target_grid_pos = tile_map_layer.local_to_map(event.position)
-			#var target_pixel_pos = tile_map_layer.map_to_local(target_grid_pos)
-			#selected_beast.position = target_pixel_pos
-			#print('移动到格子', target_grid_pos)
-			#selected_beast = null
-			#get_viewport().set_input_as_handled()
 
 var selected_beast = null
 func _input(event: InputEvent) -> void:
@@ -38,12 +29,15 @@ func _input(event: InputEvent) -> void:
 	# 分析查询结果
 	if results.is_empty():
 		# 情况A：点击到了空白区域
-		if selected_beast != null:
+		if selected_beast != null and selected_beast.can_act:
 			var target_grid_pos = tile_map_layer.local_to_map(mouse_pos)
 			var target_pixel_pos = tile_map_layer.map_to_local(target_grid_pos)
 			selected_beast.position = target_pixel_pos
 			print('移动到格子', target_grid_pos)
 			selected_beast.get_node("Sprite2D").modulate = Color.WHITE
+			# 移动也是一种行动，消耗体力和行动机会
+			selected_beast.current_stamina -= 10 # 假设移动消耗10体力
+			selected_beast.can_act = false
 			selected_beast = null
 	else:
 		# 情况B：点击到了一个或多个精灵
@@ -56,8 +50,21 @@ func _input(event: InputEvent) -> void:
 				max_y = beast.global_position.y
 				top_beast = beast
 		if top_beast != null:
-			if selected_beast != null:
-				selected_beast.get_node("Sprite2D").modulate = Color.WHITE
-			selected_beast = top_beast
-			selected_beast.get_node("Sprite2D").modulate = Color.BLUE
-			print("选中了精灵：", selected_beast.name)
+			if top_beast.can_act:
+				if selected_beast != null:
+					selected_beast.get_node("Sprite2D").modulate = Color.WHITE
+				selected_beast = top_beast
+				selected_beast.get_node("Sprite2D").modulate = Color.BLUE
+				print("选中了精灵：", selected_beast.name)
+			else:
+				print(top_beast.name, " 体力不足，无法行动！")
+	#get_viewport().set_input_as_handled()
+
+
+func _on_end_turn_button_pressed() -> void:
+	print("--- 回合结束 ---")
+	# 遍历所有子节点，找到精灵并更新它们的回合状态
+	for child in units.get_children():
+		if child.is_in_group("beasts"):
+			child.on_new_turn_starts()
+	pass # Replace with function body.

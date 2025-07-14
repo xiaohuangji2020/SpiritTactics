@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=4 uid="uid://b2x7qg7bvv7nj"]
+[gd_scene load_steps=7 format=4 uid="uid://b2x7qg7bvv7nj"]
 
 [ext_resource type="Script" uid="uid://dof8qv1w4cdfh" path="res://scripts/core/BattleScene.gd" id="1_eo800"]
 [ext_resource type="Texture2D" uid="uid://c2yd58rraplhb" path="res://assets/images/backgrounds/template.jpeg" id="1_n0n4v"]
-[ext_resource type="PackedScene" uid="uid://bpiqgpuxouu48" path="res://scenes/sprites/BeastBase.tscn" id="3_7aseh"]
+[ext_resource type="PackedScene" uid="uid://bpiqgpuxouu48" path="res://scenes/beast/BeastBase.tscn" id="3_7aseh"]
+[ext_resource type="Script" uid="uid://cm2o2b6w6ewc3" path="res://scripts/core/TurnManager.gd" id="5_q6c5s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wy4tw"]
 texture = ExtResource("1_n0n4v")
@@ -275,9 +276,22 @@ script = ExtResource("1_eo800")
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAABAAYAAAAAAAAAAAABAAcAAAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAACAAUAAAAAAAAAAAACAAYAAAAAAAAAAAACAAcAAAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAAAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAcAAAAAAAAAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAUAAAAAAAAAAAAHAAYAAAAAAAAAAAAHAAcAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_8viqo")
 
-[node name="BeastBase" parent="TileMapLayer" instance=ExtResource("3_7aseh")]
-scale = Vector2(0.5, 0.5)
+[node name="units" type="Node2D" parent="."]
+
+[node name="BeastBase" parent="units" instance=ExtResource("3_7aseh")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(960, 540)
 position_smoothing_enabled = true
+
+[node name="TurnManager" type="Node" parent="."]
+script = ExtResource("5_q6c5s")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 1049.0
+offset_top = 714.0
+offset_right = 1127.0
+offset_bottom = 745.0
+text = "End Turn"
+
+[connection signal="pressed" from="Button" to="." method="_on_end_turn_button_pressed"]
