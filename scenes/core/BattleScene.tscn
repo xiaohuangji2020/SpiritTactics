@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=4 uid="uid://b2x7qg7bvv7nj"]
+[gd_scene load_steps=8 format=4 uid="uid://b2x7qg7bvv7nj"]
 
 [ext_resource type="Script" uid="uid://dof8qv1w4cdfh" path="res://scripts/core/BattleScene.gd" id="1_eo800"]
 [ext_resource type="Texture2D" uid="uid://c2yd58rraplhb" path="res://assets/images/backgrounds/template.jpeg" id="1_n0n4v"]
 [ext_resource type="PackedScene" uid="uid://bpiqgpuxouu48" path="res://scenes/beast/BeastBase.tscn" id="3_7aseh"]
+[ext_resource type="PackedScene" uid="uid://vn5n3qi7uvxq" path="res://scenes/beast/BeastBase2.tscn" id="3_q6c5s"]
 [ext_resource type="Script" uid="uid://cm2o2b6w6ewc3" path="res://scripts/core/TurnManager.gd" id="5_q6c5s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wy4tw"]
@@ -278,7 +279,10 @@ tile_set = SubResource("TileSet_8viqo")
 
 [node name="units" type="Node2D" parent="."]
 
+[node name="BeastBase2" parent="units" instance=ExtResource("3_q6c5s")]
+
 [node name="BeastBase" parent="units" instance=ExtResource("3_7aseh")]
+scale = Vector2(0.3, 0.3)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(960, 540)

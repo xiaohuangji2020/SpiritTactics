@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_1v4a5")
-skill_name = "飞叶快刀"
-stamina_cost = 7
-damage = 25
+skill_name = "撞击"
+stamina_cost = 4
+damage = 20
 range = 1
 metadata/_custom_type_script = "uid://c1oplwgao11bv"
