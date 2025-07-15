@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("1_b7qa8")
-beast_name = "叶隐喵"
+beast_name = "gemini"
 max_hp = 100
 speed = 8
 skills = Array[ExtResource("2_2n0j0")]([ExtResource("3_dffo7")])

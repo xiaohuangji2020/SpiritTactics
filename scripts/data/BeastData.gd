@@ -1,3 +1,4 @@
+# 精灵信息
 extends Resource
 class_name BeastData
 

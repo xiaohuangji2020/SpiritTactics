@@ -1,3 +1,4 @@
+# 技能信息
 extends Resource
 class_name SkillData
 

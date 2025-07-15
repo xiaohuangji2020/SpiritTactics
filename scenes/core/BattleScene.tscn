@@ -282,7 +282,6 @@ tile_set = SubResource("TileSet_8viqo")
 [node name="BeastBase2" parent="units" instance=ExtResource("3_q6c5s")]
 
 [node name="BeastBase" parent="units" instance=ExtResource("3_7aseh")]
-scale = Vector2(0.3, 0.3)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(960, 540)

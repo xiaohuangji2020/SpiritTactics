@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=4 format=3 uid="uid://b2pdlk23pkls5"]
+
+[ext_resource type="Script" uid="uid://d106mt47lbevq" path="res://scripts/data/UnitData.gd" id="1_tcpmk"]
+[ext_resource type="Script" uid="uid://ctfdj41it6lw5" path="res://scripts/data/LevelData.gd" id="2_c5mif"]
+
+[sub_resource type="Resource" id="Resource_tcpmk"]
+script = ExtResource("1_tcpmk")
+start_position = Vector2i(0, 0)
+metadata/_custom_type_script = "uid://d106mt47lbevq"
+
+[resource]
+script = ExtResource("2_c5mif")
+play_units = [SubResource("Resource_tcpmk")]
+enemy_units = Array[ExtResource("1_tcpmk")]([])
+metadata/_custom_type_script = "uid://ctfdj41it6lw5"
