@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BeastData" load_steps=5 format=3 uid="uid://2k3ultb5xcrn"]
+
+[ext_resource type="Script" uid="uid://cmjamtfmisj1r" path="res://scripts/data/BeastData.gd" id="1_8p8qu"]
+[ext_resource type="Script" uid="uid://c1oplwgao11bv" path="res://scripts/data/SkillData.gd" id="2_3fe34"]
+[ext_resource type="Texture2D" uid="uid://1s0ndd8xyx6c" path="res://icon.svg" id="3_3fe34"]
+[ext_resource type="Resource" uid="uid://fbg80dc8lgcc" path="res://resources/skills/Attack.tres" id="3_bqmui"]
+
+[resource]
+script = ExtResource("1_8p8qu")
+beast_name = "godot"
+sprite_texture = ExtResource("3_3fe34")
+max_hp = 200
+speed = 10
+skills = Array[ExtResource("2_3fe34")]([ExtResource("3_bqmui")])
+metadata/_custom_type_script = "uid://cmjamtfmisj1r"

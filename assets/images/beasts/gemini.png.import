@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cksq67afjdk0y"
-path="res://.godot/imported/gpt.png-7456dec336897a935400044dab33d6a6.ctex"
+uid="uid://b4quhus3o4lfj"
+path="res://.godot/imported/gemini.png-c1e6f615298f063c2f397ca6eda4a16b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/sprites/gpt.png"
-dest_files=["res://.godot/imported/gpt.png-7456dec336897a935400044dab33d6a6.ctex"]
+source_file="res://assets/images/beasts/gemini.png"
+dest_files=["res://.godot/imported/gemini.png-c1e6f615298f063c2f397ca6eda4a16b.ctex"]
 
 [params]
 

@@ -1,15 +1,24 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=4 format=3 uid="uid://b2pdlk23pkls5"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=7 format=3 uid="uid://b2pdlk23pkls5"]
 
 [ext_resource type="Script" uid="uid://d106mt47lbevq" path="res://scripts/data/UnitData.gd" id="1_tcpmk"]
 [ext_resource type="Script" uid="uid://ctfdj41it6lw5" path="res://scripts/data/LevelData.gd" id="2_c5mif"]
+[ext_resource type="Resource" uid="uid://bh1oy8q27tmvd" path="res://resources/beasts/gemini.tres" id="3_4714h"]
+[ext_resource type="Resource" uid="uid://c8lpbr4j4nhl2" path="res://resources/beasts/gpt.tres" id="3_ylt2n"]
 
-[sub_resource type="Resource" id="Resource_tcpmk"]
+[sub_resource type="Resource" id="Resource_4714h"]
 script = ExtResource("1_tcpmk")
+beast_data = ExtResource("3_ylt2n")
+start_position = Vector2i(2, 3)
+metadata/_custom_type_script = "uid://d106mt47lbevq"
+
+[sub_resource type="Resource" id="Resource_c5mif"]
+script = ExtResource("1_tcpmk")
+beast_data = ExtResource("3_4714h")
 start_position = Vector2i(0, 0)
 metadata/_custom_type_script = "uid://d106mt47lbevq"
 
 [resource]
 script = ExtResource("2_c5mif")
-play_units = [SubResource("Resource_tcpmk")]
-enemy_units = Array[ExtResource("1_tcpmk")]([])
+play_units = Array[ExtResource("1_tcpmk")]([SubResource("Resource_c5mif")])
+enemy_units = Array[ExtResource("1_tcpmk")]([SubResource("Resource_4714h")])
 metadata/_custom_type_script = "uid://ctfdj41it6lw5"

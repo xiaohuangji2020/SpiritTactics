@@ -1,9 +1,11 @@
 extends Node2D
 
 # 在脚本顶部定义一个信号，它会传递一个参数，就是节点自己
-signal ready_and_initialized(beast_node)
+#signal ready_and_initialized(beast_node)
 
 @export var data: BeastData
+@onready var sprite_2d: Sprite2D = $Sprite2D
+
 var current_hp: int
 var current_stamina: int = 0
 var can_act: bool = false
@@ -15,7 +17,8 @@ func _ready():
 		# 我们可以顺便把节点名字也改了，方便调试
 		self.name = data.beast_name
 		print("初始化精灵 ", self.name)
-		emit_signal("ready_and_initialized", self)
+		sprite_2d.texture =data.sprite_texture
+		#emit_signal("ready_and_initialized", self)
 	else:
 		print("警告：精灵 ", self.name, " 没有分配BeastData！")
 
@@ -25,7 +28,7 @@ func take_damage(amount: int):
 	if current_hp <= 0:
 		print(self.name, " 已被击败！")
 		queue_free() # 暂时先直接从场景移除
-		
+
 func on_new_turn_starts():
 	if data:
 		current_stamina += data.speed

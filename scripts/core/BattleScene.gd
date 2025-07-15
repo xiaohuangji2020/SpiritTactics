@@ -1,18 +1,25 @@
 extends Node2D
 
-@onready var tile_map_layer: TileMapLayer = $TileMapLayer
-@onready var units: Node2D = $units
-var player_beast: Node2D = null
+@export var current_level_data: LevelData
 
-func _on_beast_ready(beast_node):
-	await self.ready 
-	var grid_pos = Vector2i(2,5)
-	var pixel_pos = tile_map_layer.map_to_local(grid_pos)
-	beast_node.position = pixel_pos
-	print("收到了来自 ", beast_node.name, " 的通知！")
+@onready var tile_map_layer: TileMapLayer = $TileMapLayer
+@onready var units: Node2D = $Units
+@onready var battle_setup: Node = $BattleSetup
 
 func _ready() -> void:
-	pass
+	if not current_level_data:
+		print("错误1002：没有分配关卡数据!")
+		return
+	# 调用BattleSetup来布置场景
+	battle_setup.setup_battle(current_level_data, units)
+	# 等待整个项目ready，区别于await self.ready
+	await get_tree().process_frame
+	# 设置位置
+	for beast in units.get_children():
+		if beast.has_meta("grid_pos"):
+			var grid_pos = beast.get_meta("grid_pos")
+			beast.position = tile_map_layer.map_to_local(grid_pos)
+
 
 var selected_beast = null
 func _input(event: InputEvent) -> void:

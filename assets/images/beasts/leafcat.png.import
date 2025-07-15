@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4quhus3o4lfj"
-path="res://.godot/imported/gemini.png-04b7a5786751bf4503f95488e724a6f1.ctex"
+uid="uid://tvgnbw25gh4a"
+path="res://.godot/imported/leafcat.png-976374063e6f12a981386862fc8d963e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/sprites/gemini.png"
-dest_files=["res://.godot/imported/gemini.png-04b7a5786751bf4503f95488e724a6f1.ctex"]
+source_file="res://assets/images/beasts/leafcat.png"
+dest_files=["res://.godot/imported/leafcat.png-976374063e6f12a981386862fc8d963e.ctex"]
 
 [params]
 

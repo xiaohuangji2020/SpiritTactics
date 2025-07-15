@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BeastData" load_steps=5 format=3 uid="uid://c8lpbr4j4nhl2"]
+
+[ext_resource type="Script" uid="uid://cmjamtfmisj1r" path="res://scripts/data/BeastData.gd" id="1_21la4"]
+[ext_resource type="Script" uid="uid://c1oplwgao11bv" path="res://scripts/data/SkillData.gd" id="2_yvqhh"]
+[ext_resource type="Resource" uid="uid://fbg80dc8lgcc" path="res://resources/skills/Attack.tres" id="3_pl3hl"]
+[ext_resource type="Texture2D" uid="uid://cksq67afjdk0y" path="res://assets/images/beasts/gpt.png" id="4_yvqhh"]
+
+[resource]
+script = ExtResource("1_21la4")
+beast_name = "GPT"
+sprite_texture = ExtResource("4_yvqhh")
+max_hp = 50
+speed = 10
+skills = Array[ExtResource("2_yvqhh")]([ExtResource("3_pl3hl")])
+metadata/_custom_type_script = "uid://cmjamtfmisj1r"

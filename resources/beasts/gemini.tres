@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BeastData" load_steps=5 format=3 uid="uid://bh1oy8q27tmvd"]
+
+[ext_resource type="Script" uid="uid://cmjamtfmisj1r" path="res://scripts/data/BeastData.gd" id="1_5hpc8"]
+[ext_resource type="Script" uid="uid://c1oplwgao11bv" path="res://scripts/data/SkillData.gd" id="2_i0vd1"]
+[ext_resource type="Resource" uid="uid://fbg80dc8lgcc" path="res://resources/skills/Attack.tres" id="3_wfirb"]
+[ext_resource type="Texture2D" uid="uid://b4quhus3o4lfj" path="res://assets/images/beasts/gemini.png" id="4_i0vd1"]
+
+[resource]
+script = ExtResource("1_5hpc8")
+beast_name = "gemini"
+sprite_texture = ExtResource("4_i0vd1")
+max_hp = 100
+speed = 8
+skills = Array[ExtResource("2_i0vd1")]([ExtResource("3_wfirb")])
+metadata/_custom_type_script = "uid://cmjamtfmisj1r"
