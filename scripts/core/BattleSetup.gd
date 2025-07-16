@@ -1,7 +1,7 @@
 # 战场管理器，根据LevelData生成战场
 extends Node
 
-const BEAST_SCENE = preload("res://scenes/beast/BeastBase.tscn")
+const BEAST_SCENE = preload("res://scenes/entities/Beast.tscn")
 
 func setup_battle(level_data: LevelData, units_parent: Node2D):
 	# 清理旧单位

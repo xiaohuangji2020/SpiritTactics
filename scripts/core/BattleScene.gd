@@ -42,7 +42,7 @@ func _input(event: InputEvent) -> void:
 	# 分析查询结果
 	if results.is_empty():
 		# 情况A：点击到了空白区域
-		if selected_beast != null and selected_beast.can_act:
+		if selected_beast != null and selected_beast.can_perform_action():
 			var target_grid_pos = tile_map_layer.local_to_map(mouse_pos)
 			var target_pixel_pos = tile_map_layer.map_to_local(target_grid_pos)
 			selected_beast.position = target_pixel_pos
@@ -64,7 +64,7 @@ func _input(event: InputEvent) -> void:
 				top_beast = beast
 		if top_beast != null:
 			if selected_beast != null:
-			# 如果已经有选中的精灵了
+			# 如果已经有已选中的精灵了
 				if top_beast == selected_beast:
 				# 点击自己，取消选中
 					selected_beast.get_node("Sprite2D").modulate = Color.WHITE
@@ -76,10 +76,12 @@ func _input(event: InputEvent) -> void:
 					# 2. 检查距离和体力
 					var distance = tile_map_layer.local_to_map(selected_beast.position).distance_to(tile_map_layer.local_to_map(top_beast.position))
 					if distance <= attack_skill.range and selected_beast.current_stamina > attack_skill.stamina_cost:
-						print(selected_beast.name, " 对 ", top_beast.name, " 使用了 ", attack_skill.skill_name)
+						print(selected_beast.current_name, " 对 ", top_beast.current_name, " 使用了 ", attack_skill.skill_name)
 						# 造成伤害
 						var final_damage = CombatManager.calculate_skill_damage(top_beast, selected_beast, attack_skill)
 						top_beast.take_damage(final_damage)
+						# 计算异常
+						CombatManager.process_skill_effects(top_beast, selected_beast, attack_skill)
 						# 消耗体力和行动机会
 						selected_beast.current_stamina -= attack_skill.stamina_cost
 						selected_beast.can_act = false
@@ -89,14 +91,15 @@ func _input(event: InputEvent) -> void:
 					else:
 						print("距离过远或体力不足，无法攻击！")
 			else:
-				if top_beast.can_act:
+			# 没有已选中的
+				if top_beast.can_perform_action():
 					if selected_beast != null:
 						selected_beast.get_node("Sprite2D").modulate = Color.WHITE
 					selected_beast = top_beast
 					selected_beast.get_node("Sprite2D").modulate = Color.BLUE
-					print("选中了精灵：", selected_beast.name)
+					print("选中了精灵：", selected_beast.current_name)
 				else:
-					print(top_beast.name, " 体力不足，无法行动！")
+					print(top_beast.current_name, " 体力不足，无法行动！")
 	#get_viewport().set_input_as_handled()
 
 

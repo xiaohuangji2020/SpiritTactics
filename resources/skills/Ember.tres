@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="SkillData" load_steps=2 format=3 uid="uid://8pgar6nf6qjq"]
+[gd_resource type="Resource" script_class="SkillData" load_steps=3 format=3 uid="uid://8pgar6nf6qjq"]
 
+[ext_resource type="Resource" uid="uid://d0nw71fffwu5k" path="res://resources/status_effects/Burned.tres" id="1_7qukp"]
 [ext_resource type="Script" uid="uid://c1oplwgao11bv" path="res://scripts/data/SkillData.gd" id="1_so2bb"]
 
 [resource]
@@ -9,4 +10,6 @@ attribute = 2
 stamina_cost = 4
 damage = 20
 range = 2
+applies_effect = ExtResource("1_7qukp")
+effect_chance = 1.0
 metadata/_custom_type_script = "uid://c1oplwgao11bv"

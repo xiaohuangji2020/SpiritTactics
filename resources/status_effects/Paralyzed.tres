@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatusEffectData" load_steps=2 format=3 uid="uid://cxbdtm8ujpg7r"]
+
+[ext_resource type="Script" uid="uid://c1prxv428eup5" path="res://scripts/data/StatusEffectData.gd" id="1_a4llj"]
+
+[resource]
+script = ExtResource("1_a4llj")
+effect_type = 4
+duration_in_turns = 10
+damage_per_turn = 0
+damage_per_turn_percent = 0.0
+auto_remove_chance = 0.0
+attack_modifier = 1.0
+defense_modifier = 1.0
+speed_modifier = 0.7
+prevents_action = false
+action_fail_chance = 0.25
+metadata/_custom_type_script = "uid://c1prxv428eup5"

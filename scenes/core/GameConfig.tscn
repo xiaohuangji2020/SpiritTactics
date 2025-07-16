@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://n8q8d7h34hs7"]
+
+[ext_resource type="Script" uid="uid://cq0p6gywsv8i5" path="res://scripts/core/GameConfig.gd" id="1_anis7"]
+
+[node name="GameConfig" type="Node"]
+script = ExtResource("1_anis7")

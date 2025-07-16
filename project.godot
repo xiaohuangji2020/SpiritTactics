@@ -18,8 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 AttributeManager="*res://scripts/core/AttributeManager.gd"
-GameConfig="*res://scripts/core/GameConfig.gd"
 CombatManager="*res://scripts/core/CombatManager.gd"
+GameConfig="*res://scripts/core/GameConfig.gd"
 
 [display]
 
