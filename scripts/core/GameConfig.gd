@@ -26,6 +26,9 @@ const Enums = preload("res://scripts/core/Enums.gd")
 # 比如精灵最高等级 (未来可能用到)
 @export var MAX_LEVEL: int = 100
 
+@export_group("Combat Rules")
+@export var STAMINA_COST_TO_ACT: int = 100
+
 
 # 一个私有字典，用于在游戏运行时进行快速查询
 # Key是状态的Enum，Value是完整的StatusEffectData资源

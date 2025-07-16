@@ -1,6 +1,7 @@
 # 回合管理器
 extends Node
 
+# 定义信号，但有单位获得行动权时发出
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -289,12 +289,3 @@ script = ExtResource("5_q6c5s")
 
 [node name="BattleSetup" type="Node" parent="."]
 script = ExtResource("5_n64lt")
-
-[node name="Button" type="Button" parent="."]
-offset_left = 1049.0
-offset_top = 714.0
-offset_right = 1127.0
-offset_bottom = 745.0
-text = "End Turn"
-
-[connection signal="pressed" from="Button" to="." method="_on_end_turn_button_pressed"]

@@ -50,7 +50,6 @@ func _input(event: InputEvent) -> void:
 			selected_beast.get_node("Sprite2D").modulate = Color.WHITE
 			# 移动也是一种行动，消耗体力和行动机会
 			selected_beast.current_stamina -= 10 # 假设移动消耗10体力
-			selected_beast.can_act = false
 			selected_beast = null
 	else:
 		# 情况B：点击到了一个或多个精灵
@@ -84,7 +83,6 @@ func _input(event: InputEvent) -> void:
 						CombatManager.process_skill_effects(top_beast, selected_beast, attack_skill)
 						# 消耗体力和行动机会
 						selected_beast.current_stamina -= attack_skill.stamina_cost
-						selected_beast.can_act = false
 						# 行动结束，取消选中
 						selected_beast.get_node("Sprite2D").modulate = Color.WHITE
 						selected_beast = null
@@ -101,12 +99,3 @@ func _input(event: InputEvent) -> void:
 				else:
 					print(top_beast.current_name, " 体力不足，无法行动！")
 	#get_viewport().set_input_as_handled()
-
-
-func _on_end_turn_button_pressed() -> void:
-	print("--- 回合结束 ---")
-	# 遍历所有子节点，找到精灵并更新它们的回合状态
-	for child in units.get_children():
-		if child.is_in_group("beasts"):
-			child.on_new_turn_starts()
-	pass # Replace with function body.

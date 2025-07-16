@@ -10,7 +10,6 @@ const Enums = preload("res://scripts/core/Enums.gd")
 var current_name: String
 var current_hp: int
 var current_stamina: int = 0
-var can_act: bool = false
 # 字典的键是状态类型(int)，值是剩余持续时间(int)
 var active_status_effects: Dictionary = {}
 
@@ -35,7 +34,7 @@ func take_damage(amount: int):
 	if current_hp <= 0:
 		print(current_name, " 已被击败！")
 		queue_free() # 暂时先直接从场景移除
-		
+
 # 这是一个新的辅助函数，它会返回该精灵当前所有激活状态的完整数据列表
 func get_all_active_effect_data() -> Array[StatusEffectData]:
 	var effect_data_array: Array[StatusEffectData] = []
@@ -45,19 +44,17 @@ func get_all_active_effect_data() -> Array[StatusEffectData]:
 		if effect_data:
 			effect_data_array.append(effect_data)
 	return effect_data_array
-	
+
 # 临时的轮次流转
 func on_new_turn_starts():
 	if data:
 		current_stamina += data.speed
 	# 检查体力是否足够行动
 	if current_stamina >= 10:
-		can_act = true
 		print(current_name, " 体力恢复至 ", current_stamina, "，可以行动！")
 	else:
-		can_act = false
 		print(current_name, " 体力恢复至 ", current_stamina, "，尚不能行动。")
-	
+
 	# --- 处理异常状态效果 ---
 	var effects_to_remove = []
 	for effect_data in get_all_active_effect_data():
@@ -82,16 +79,16 @@ func on_new_turn_starts():
 
 # 是否可行动
 func can_perform_action() -> bool:
-	if not can_act: # 首先检查基础的体力是否足够
-		return false
-	for effect_data in get_all_active_effect_data():
-		if (effect_data.prevents_action):
-			print(current_name, " 因", effect_data.effect_type, "无法行动！")
-			return false
-		if effect_data.action_fail_chance > 0.0 and randf() < effect_data.action_fail_chance:
-			print(current_name, " 因", effect_data.effect_type, "行动失败！")
-			return false
-	return true
+	if current_stamina >= GameConfig.STAMINA_COST_TO_ACT: # 首先检查基础的体力是否足够
+		for effect_data in get_all_active_effect_data():
+			if (effect_data.prevents_action):
+				print(current_name, " 因", effect_data.effect_type, "无法行动！")
+				return false
+			if effect_data.action_fail_chance > 0.0 and randf() < effect_data.action_fail_chance:
+				print(current_name, " 因", effect_data.effect_type, "行动失败！")
+				return false
+		return true
+	return false
 
 # 添加状态
 func apply_status_effect(effect_data: StatusEffectData):
