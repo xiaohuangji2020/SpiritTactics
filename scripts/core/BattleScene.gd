@@ -1,3 +1,4 @@
+# 战斗场景管理
 extends Node2D
 
 @export var current_level_data: LevelData
@@ -77,7 +78,8 @@ func _input(event: InputEvent) -> void:
 					if distance <= attack_skill.range and selected_beast.current_stamina > attack_skill.stamina_cost:
 						print(selected_beast.name, " 对 ", top_beast.name, " 使用了 ", attack_skill.skill_name)
 						# 造成伤害
-						top_beast.take_damage(attack_skill.damage)
+						var final_damage = CombatManager.calculate_skill_damage(top_beast, selected_beast, attack_skill)
+						top_beast.take_damage(final_damage)
 						# 消耗体力和行动机会
 						selected_beast.current_stamina -= attack_skill.stamina_cost
 						selected_beast.can_act = false

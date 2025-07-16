@@ -25,6 +25,7 @@ func _ready():
 func take_damage(amount: int):
 	current_hp -= amount
 	print(self.name, " 受到了 ", amount, " 点伤害，剩余HP: ", current_hp)
+	# 在这里可以触发受伤动画、显示伤害数字等
 	if current_hp <= 0:
 		print(self.name, " 已被击败！")
 		queue_free() # 暂时先直接从场景移除

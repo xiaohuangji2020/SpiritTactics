@@ -4,7 +4,8 @@
 
 [resource]
 script = ExtResource("1_1v4a5")
-skill_name = "撞击"
+skill_name = "技能名"
+attribute = 0
 stamina_cost = 4
 damage = 40
 range = 1

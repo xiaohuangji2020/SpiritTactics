@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SkillData" load_steps=2 format=3 uid="uid://ct8d7ym7whyxh"]
+
+[ext_resource type="Script" uid="uid://c1oplwgao11bv" path="res://scripts/data/SkillData.gd" id="1_1nrr4"]
+
+[resource]
+script = ExtResource("1_1nrr4")
+skill_name = "水枪"
+attribute = 1
+stamina_cost = 4
+damage = 20
+range = 2
+metadata/_custom_type_script = "uid://c1oplwgao11bv"

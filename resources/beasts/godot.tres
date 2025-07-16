@@ -3,11 +3,12 @@
 [ext_resource type="Script" uid="uid://cmjamtfmisj1r" path="res://scripts/data/BeastData.gd" id="1_8p8qu"]
 [ext_resource type="Script" uid="uid://c1oplwgao11bv" path="res://scripts/data/SkillData.gd" id="2_3fe34"]
 [ext_resource type="Texture2D" uid="uid://1s0ndd8xyx6c" path="res://icon.svg" id="3_3fe34"]
-[ext_resource type="Resource" uid="uid://fbg80dc8lgcc" path="res://resources/skills/Attack.tres" id="3_bqmui"]
+[ext_resource type="Resource" uid="uid://c2voh1mxseiyr" path="res://resources/skills/RazorLeaf.tres" id="3_bqmui"]
 
 [resource]
 script = ExtResource("1_8p8qu")
 beast_name = "godot"
+attributes = Array[int]([3])
 sprite_texture = ExtResource("3_3fe34")
 max_hp = 200
 speed = 10
