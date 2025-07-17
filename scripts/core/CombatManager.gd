@@ -21,18 +21,13 @@ func calculate_skill_damage(defender: Node2D, attacker: Node2D, skill: SkillData
 		print("效果一般")
 	final_damage *= effectiveness
 	# 3. 未来可以在这里加入攻击/防御力计算、暴击计算等
-	
+
 	# 4. 异常相关
-	var attack_mod: float = 1.0
-	var defense_mod: float = 1.0
-	# 4.1. 累积攻击方的所有攻击修正
-	for effect_data in attacker.get_all_active_effect_data(): # 假设Beast有这个新函数
-		attack_mod *= effect_data.attack_modifier
-	# 4.2. 累积防御方的所有防御修正
-	for effect_data in defender.get_all_active_effect_data():
-		defense_mod *= effect_data.defense_modifier
+	# 直接向单位索要总的修正值
+	var attack_mod = attacker.get_effective_attack_modifier()
+	var defense_mod = defender.get_effective_defense_modifier()
 	final_damage *= attack_mod / defense_mod # 伤害 = 基础伤害 * 攻击修正 / 防御修正
-	
+
 	# 返回最终的整数伤害值
 	return roundi(final_damage)
 

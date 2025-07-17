@@ -31,14 +31,10 @@ func _calculate_next_turn():
 		return
 	var ticks_to_act = INF # 用一个极大的数表示需要无限“时间”才能行动
 	var next_beast = null
-	
+
 	# 1. 找到最快能行动的单位
 	for beast in all_beasts:
-		# 速度修正
-		var speed_modifier = 1.0
-		for effect in beast.get_all_active_effect_data():
-			speed_modifier *= effect.speed_modifier
-		var effective_speed = beast.data.speed * speed_modifier
+		var effective_speed = beast.get_effective_speed()
 		if effective_speed <= 0: continue # 速度为0或负数的单位永远不能行动
 		# 计算该单位还需要多少“时间单位(tick)”才能攒满体力
 		var stamina_needed = GameConfig.STAMINA_THRESHOLD_TO_ACT - beast.current_stamina
@@ -50,16 +46,13 @@ func _calculate_next_turn():
 		print("错误：战场上没有可行动的单位！")
 		is_battle_running = false
 		return
-	
+
 	# 2. “快进时间”，为所有单位增加体力
 	# ticks_to_act 是我们快进的时间长度
 	for beast in all_beasts:
-		# 乘以速度修正（比如麻痹）
-		var speed_modifier = 1.0
-		for effect in beast.get_all_active_effect_data():
-			speed_modifier *= effect.speed_modifier
-		beast.current_stamina += roundi(ticks_to_act * beast.data.speed * speed_modifier)
-	
+		var effective_speed = beast.get_effective_speed()
+		beast.current_stamina += roundi(ticks_to_act * effective_speed)
+
 	# 3. 将行动权交给最快的那个单位
 	print("时间推进了 ", ticks_to_act, " 个单位。")
 	print(next_beast.name, " 获得行动权！体力: ", next_beast.current_stamina)

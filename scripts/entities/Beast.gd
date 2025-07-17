@@ -103,3 +103,34 @@ func remove_status_effect(effect_type: Enums.StatusEffect):
 	if active_status_effects.has(effect_type):
 		active_status_effects.erase(effect_type)
 		print(current_name, " 的 ", Enums.StatusEffect.keys()[effect_type], " 状态解除了。")
+
+
+# 获取实际速度
+func get_effective_speed() -> float:
+	# 如果没有数据，速度为0
+	if not data:
+		return 0.0
+	# 从数据中获取基础速度
+	var base_speed = float(data.speed)
+	var speed_modifier = 1.0
+
+	# 遍历所有激活的状态效果，累积速度修正值
+	for effect_data in get_all_active_effect_data():
+		speed_modifier *= effect_data.speed_modifier
+
+	# 返回最终计算结果
+	return base_speed * speed_modifier
+
+# 获取实际攻击
+func get_effective_attack_modifier() -> float:
+	var modifier = 1.0
+	for effect_data in get_all_active_effect_data():
+		modifier *= effect_data.attack_modifier
+	return modifier
+
+# 获取实际防御
+func get_effective_defense_modifier() -> float:
+	var modifier = 1.0
+	for effect_data in get_all_active_effect_data():
+		modifier *= effect_data.defense_modifier
+	return modifier
