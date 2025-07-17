@@ -3,6 +3,7 @@ extends Node2D
 
 @export var current_level_data: LevelData
 
+@onready var turn_manager: Node = $TurnManager
 @onready var tile_map_layer: TileMapLayer = $TileMapLayer
 @onready var units: Node2D = $Units
 @onready var battle_setup: Node = $BattleSetup
@@ -16,11 +17,41 @@ func _ready() -> void:
 	# 等待整个项目ready，区别于await self.ready
 	await get_tree().process_frame
 	# 设置位置
+	var beasts_array: Array[Node2D] = []
 	for beast in units.get_children():
+		# is_in_group是比类型检查更稳妥的方式
+		if beast.is_in_group("beasts"):
+			beasts_array.append(beast)
 		if beast.has_meta("grid_pos"):
 			var grid_pos = beast.get_meta("grid_pos")
 			beast.position = tile_map_layer.map_to_local(grid_pos)
+	# 连接TurnManager的信号
+	turn_manager.turn_granted.connect(_on_turn_granted)
+	# 开始战斗
+	turn_manager.start_battle(beasts_array)
 
+# 在_input函数中，当一次行动（移动或攻击）成功后
+func _on_skill_used_successfully(skill: SkillData):
+	selected_beast.current_stamina -= skill.stamina_cost
+	print(selected_beast.name, " 剩余体力: ", selected_beast.current_stamina)
+	# 检查是否还有足够体力行动
+	if not selected_beast.can_perform_action():
+		# 如果体力不够任何行动了，可以自动结束回合
+		_end_current_turn()
+
+func _end_current_turn():
+	if selected_beast == null: return
+	# 恢复单位的视觉状态
+	selected_beast.get_node("Sprite2D").modulate = Color.WHITE
+	selected_beast = null
+	# 通知TurnManager，玩家操作已完成
+	turn_manager.on_action_completed()
+
+# 当TurnManager分配了行动权
+func _on_turn_granted(beast_node):
+	selected_beast = beast_node
+	# 在这里可以更新UI，高亮当前行动的单位等
+	selected_beast.get_node("Sprite2D").modulate = Color.LIGHT_BLUE
 
 var selected_beast = null
 func _input(event: InputEvent) -> void:
@@ -48,9 +79,6 @@ func _input(event: InputEvent) -> void:
 			selected_beast.position = target_pixel_pos
 			print('移动到格子', target_grid_pos)
 			selected_beast.get_node("Sprite2D").modulate = Color.WHITE
-			# 移动也是一种行动，消耗体力和行动机会
-			selected_beast.current_stamina -= 10 # 假设移动消耗10体力
-			selected_beast = null
 	else:
 		# 情况B：点击到了一个或多个精灵
 		var top_beast = null
@@ -81,11 +109,7 @@ func _input(event: InputEvent) -> void:
 						top_beast.take_damage(final_damage)
 						# 计算异常
 						CombatManager.process_skill_effects(top_beast, selected_beast, attack_skill)
-						# 消耗体力和行动机会
-						selected_beast.current_stamina -= attack_skill.stamina_cost
-						# 行动结束，取消选中
-						selected_beast.get_node("Sprite2D").modulate = Color.WHITE
-						selected_beast = null
+						_on_skill_used_successfully(attack_skill)
 					else:
 						print("距离过远或体力不足，无法攻击！")
 			else:
@@ -98,4 +122,4 @@ func _input(event: InputEvent) -> void:
 					print("选中了精灵：", selected_beast.current_name)
 				else:
 					print(top_beast.current_name, " 体力不足，无法行动！")
-	#get_viewport().set_input_as_handled()
+	# get_viewport().set_input_as_handled() # 消耗事件

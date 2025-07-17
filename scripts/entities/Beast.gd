@@ -3,6 +3,7 @@ extends Node2D
 const Enums = preload("res://scripts/core/Enums.gd")
 # 在脚本顶部定义一个信号，它会传递一个参数，就是节点自己
 #signal ready_and_initialized(beast_node)
+signal died(beast_node) # 定义一个信号，参数是死亡的节点自己
 
 @export var data: BeastData
 @onready var sprite_2d: Sprite2D = $Sprite2D
@@ -33,6 +34,7 @@ func take_damage(amount: int):
 	# 在这里可以触发受伤动画、显示伤害数字等
 	if current_hp <= 0:
 		print(current_name, " 已被击败！")
+		emit_signal("died", self)
 		queue_free() # 暂时先直接从场景移除
 
 # 这是一个新的辅助函数，它会返回该精灵当前所有激活状态的完整数据列表
@@ -79,7 +81,7 @@ func on_new_turn_starts():
 
 # 是否可行动
 func can_perform_action() -> bool:
-	if current_stamina >= GameConfig.STAMINA_COST_TO_ACT: # 首先检查基础的体力是否足够
+	if current_stamina >= GameConfig.STAMINA_THRESHOLD_TO_ACT: # 首先检查基础的体力是否足够
 		for effect_data in get_all_active_effect_data():
 			if (effect_data.prevents_action):
 				print(current_name, " 因", effect_data.effect_type, "无法行动！")

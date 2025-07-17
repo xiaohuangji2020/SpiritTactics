@@ -2,12 +2,66 @@
 extends Node
 
 # 定义信号，但有单位获得行动权时发出
+signal turn_granted(beast_node)
+var all_beasts: Array[Node2D] = []
+var is_battle_running: bool = false
+var is_waiting_for_action: bool = false # 是否正在等待玩家操作
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+# 新增一个处理函数
+func on_beast_died(beast_node):
+	print("TurnManager收到了", beast_node.name, "的死亡通知。")
+	if all_beasts.has(beast_node):
+		all_beasts.erase(beast_node) # 从列表中移除
 
+# 供外部调用，开始战斗
+func start_battle(beasts: Array[Node2D]):
+	all_beasts = beasts
+	is_battle_running = true
+	is_waiting_for_action = false # 初始状态不是等待操作
+	_calculate_next_turn() # 开始计算第一个行动者
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+# 当一个单位行动结束后，外部会调用这个函数
+func on_action_completed():
+	is_waiting_for_action = false
+	_calculate_next_turn()
+
+func _calculate_next_turn():
+	# 如果不是战斗中 或者是正在等待玩家操作
+	if not is_battle_running or is_waiting_for_action:
+		return
+	var ticks_to_act = INF # 用一个极大的数表示需要无限“时间”才能行动
+	var next_beast = null
+	
+	# 1. 找到最快能行动的单位
+	for beast in all_beasts:
+		# 速度修正
+		var speed_modifier = 1.0
+		for effect in beast.get_all_active_effect_data():
+			speed_modifier *= effect.speed_modifier
+		var effective_speed = beast.data.speed * speed_modifier
+		if effective_speed <= 0: continue # 速度为0或负数的单位永远不能行动
+		# 计算该单位还需要多少“时间单位(tick)”才能攒满体力
+		var stamina_needed = GameConfig.STAMINA_THRESHOLD_TO_ACT - beast.current_stamina
+		var current_ticks = stamina_needed / float(effective_speed)
+		if current_ticks < ticks_to_act:
+			ticks_to_act = current_ticks
+			next_beast = beast
+	if next_beast == null:
+		print("错误：战场上没有可行动的单位！")
+		is_battle_running = false
+		return
+	
+	# 2. “快进时间”，为所有单位增加体力
+	# ticks_to_act 是我们快进的时间长度
+	for beast in all_beasts:
+		# 乘以速度修正（比如麻痹）
+		var speed_modifier = 1.0
+		for effect in beast.get_all_active_effect_data():
+			speed_modifier *= effect.speed_modifier
+		beast.current_stamina += roundi(ticks_to_act * beast.data.speed * speed_modifier)
+	
+	# 3. 将行动权交给最快的那个单位
+	print("时间推进了 ", ticks_to_act, " 个单位。")
+	print(next_beast.name, " 获得行动权！体力: ", next_beast.current_stamina)
+	is_waiting_for_action = true # 进入等待玩家操作的状态
+	emit_signal("turn_granted", next_beast)

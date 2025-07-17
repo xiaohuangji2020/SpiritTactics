@@ -284,7 +284,7 @@ tile_set = SubResource("TileSet_8viqo")
 offset = Vector2(960, 540)
 position_smoothing_enabled = true
 
-[node name="TurnManager" type="Node" parent="."]
+[node name="TurnManager" type="Node" parent="." groups=["turn_manager"]]
 script = ExtResource("5_q6c5s")
 
 [node name="BattleSetup" type="Node" parent="."]
