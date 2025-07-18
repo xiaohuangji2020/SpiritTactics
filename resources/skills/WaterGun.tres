@@ -6,7 +6,8 @@
 script = ExtResource("1_1nrr4")
 skill_name = "水枪"
 attribute = 1
-stamina_cost = 4
+stamina_cost = 40
 damage = 20
 range = 2
+effect_chance = 1.0
 metadata/_custom_type_script = "uid://c1oplwgao11bv"

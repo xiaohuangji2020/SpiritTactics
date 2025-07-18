@@ -7,7 +7,7 @@
 script = ExtResource("1_so2bb")
 skill_name = "火苗"
 attribute = 2
-stamina_cost = 4
+stamina_cost = 35
 damage = 20
 range = 2
 applies_effect = ExtResource("1_7qukp")

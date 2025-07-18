@@ -26,7 +26,7 @@ func _ready() -> void:
 			var grid_pos = beast.get_meta("grid_pos")
 			beast.position = tile_map_layer.map_to_local(grid_pos)
 	# 连接TurnManager的信号
-	turn_manager.turn_granted.connect(_on_turn_granted)
+	turn_manager.beast_turn_started.connect(_on_beast_turn_started)
 	# 开始战斗
 	turn_manager.start_battle(beasts_array)
 
@@ -48,7 +48,7 @@ func _end_current_turn():
 	turn_manager.on_action_completed()
 
 # 当TurnManager分配了行动权
-func _on_turn_granted(beast_node):
+func _on_beast_turn_started(beast_node):
 	selected_beast = beast_node
 	# 在这里可以更新UI，高亮当前行动的单位等
 	selected_beast.get_node("Sprite2D").modulate = Color.LIGHT_BLUE

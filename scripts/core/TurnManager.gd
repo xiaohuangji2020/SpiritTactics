@@ -1,11 +1,14 @@
 # 回合管理器
 extends Node
 
-# 定义信号，但有单位获得行动权时发出
-signal turn_granted(beast_node)
+
+signal beast_turn_started(beast_node) # 行动开始信号
+signal beast_turn_ended(beast_node)   # 行动结束信号
+
 var all_beasts: Array[Node2D] = []
 var is_battle_running: bool = false
 var is_waiting_for_action: bool = false # 是否正在等待玩家操作
+var current_turn_beast: Node2D = null # 当前行动的单位
 
 # 新增一个处理函数
 func on_beast_died(beast_node):
@@ -23,6 +26,9 @@ func start_battle(beasts: Array[Node2D]):
 # 当一个单位行动结束后，外部会调用这个函数
 func on_action_completed():
 	is_waiting_for_action = false
+	if current_turn_beast:
+		emit_signal("beast_turn_ended", current_turn_beast) # 发出回合结束信号
+		current_turn_beast = null
 	_calculate_next_turn()
 
 func _calculate_next_turn():
@@ -56,5 +62,6 @@ func _calculate_next_turn():
 	# 3. 将行动权交给最快的那个单位
 	print("时间推进了 ", ticks_to_act, " 个单位。")
 	print(next_beast.name, " 获得行动权！体力: ", next_beast.current_stamina)
+	current_turn_beast = next_beast # 记录当前行动者
 	is_waiting_for_action = true # 进入等待玩家操作的状态
-	emit_signal("turn_granted", next_beast)
+	emit_signal("beast_turn_started", next_beast) # 发出回合开始信号

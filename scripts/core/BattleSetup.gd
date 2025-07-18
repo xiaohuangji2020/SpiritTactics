@@ -27,5 +27,7 @@ func spawn_unit(setup_info: UnitData, parent_node: Node2D):
 	var turn_manager = get_tree().get_first_node_in_group("turn_manager")
 	if turn_manager:
 		beast_instance.died.connect(turn_manager.on_beast_died)
+		turn_manager.beast_turn_started.connect(beast_instance.on_turn_started)
+		turn_manager.beast_turn_ended.connect(beast_instance.on_turn_ended)
 	# 修改虚拟坐标
 	beast_instance.set_meta("grid_pos", setup_info.start_position)

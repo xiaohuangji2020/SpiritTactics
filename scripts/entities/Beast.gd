@@ -134,3 +134,36 @@ func get_effective_defense_modifier() -> float:
 	for effect_data in get_all_active_effect_data():
 		modifier *= effect_data.defense_modifier
 	return modifier
+
+
+func on_turn_started(beast_node):
+	# 确保是自己的回合
+	if beast_node != self:
+		return
+	print(current_name, " 的回合开始了！")
+	# 这里是未来处理“回合开始时”触发的buff或特性的地方
+	# 比如“每回合开始时，防御力提升”
+
+
+func on_turn_ended(beast_node):
+	if beast_node != self:
+		return
+	print(current_name, " 的回合结束了。")
+	# 这里是处理“回合结束时”效果的最佳位置
+	# 我们把之前的扣血逻辑搬到这里，这就修复了Bug
+	var effects_to_remove = []
+	for effect_data in get_all_active_effect_data():
+		if effect_data.damage_per_turn > 0:
+			print(current_name, " 因", effect_data.effect_type, "在回合结束时受到了伤害！")
+			take_damage(effect_data.damage_per_turn)
+		# ... 其他回合末结算逻辑 ...
+
+		active_status_effects[effect_data.effect_type] -= 1
+		if active_status_effects[effect_data.effect_type] <= 0:
+			effects_to_remove.append(effect_data.effect_type)
+
+	for effect_type in effects_to_remove:
+		remove_status_effect(effect_type)
+
+# 关于“麻痹”，我们之前的can_perform_action()已经完美处理了“行动前”的判断
+# 它在玩家尝试行动(_input触发)时被调用，这本身就是一个隐式的“行动前钩子”
