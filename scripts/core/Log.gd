@@ -12,14 +12,23 @@ signal new_message(message_text, log_level)
 @export var console_log_level: LogLevel = LogLevel.INFO
 
 # --- 公共日志记录函数 ---
-func info(message: String):
-	_log(message, LogLevel.INFO)
+func info(message0:Variant, message1: Variant = null, message2: Variant = null,
+	message3: Variant = null, message4: Variant = null, message5: Variant = null,
+	message6: Variant = null, message7: Variant = null, message8: Variant = null, message9: Variant = null):
+	var values = [message0,message1,message2,message3,message4,message5,message6,message7,message8,message9].filter(func(value:Variant) -> bool: return value != null)
+	_log("".join(values), LogLevel.INFO)
 
-func warning(message: String):
-	_log(message, LogLevel.WARNING)
+func warning(message0:String, message1: Variant = null, message2: Variant = null,
+	message3: Variant = null, message4: Variant = null, message5: Variant = null,
+	message6: Variant = null, message7: Variant = null, message8: Variant = null, message9: Variant = null):
+	var values = [message0,message1,message2,message3,message4,message5,message6,message7,message8,message9].filter(func(value:Variant) -> bool: return value != null)
+	_log("".join(values),LogLevel.WARNING)
 
-func error(message: String):
-	_log(message, LogLevel.ERROR)
+func error(message0:String, message1: Variant = null, message2: Variant = null,
+	message3: Variant = null, message4: Variant = null, message5: Variant = null,
+	message6: Variant = null, message7: Variant = null, message8: Variant = null, message9: Variant = null):
+	var values = [message0,message1,message2,message3,message4,message5,message6,message7,message8,message9].filter(func(value:Variant) -> bool: return value != null)
+	_log("".join(values),LogLevel.ERROR)
 
 # 内部处理函数
 func _log(message: String, level: LogLevel):
@@ -29,10 +38,10 @@ func _log(message: String, level: LogLevel):
 		match level:
 			LogLevel.WARNING:
 				# 使用 print_rich 和 BBCode 来打印黄色警告
-				print_rich("[color=yellow]%s[/color]" % [formatted_message])
+				push_error(formatted_message)
 			LogLevel.ERROR:
 				# 使用 print_rich 和 BBCode 来打印红色错误
-				print_rich("[color=red]%s[/color]" % [formatted_message])
+				push_warning(formatted_message)
 			_:
 				print(formatted_message)
 	emit_signal("new_message", formatted_message, level)

@@ -33,7 +33,7 @@ func _ready() -> void:
 # 在_input函数中，当一次行动（移动或攻击）成功后
 func _on_skill_used_successfully(skill: SkillData):
 	selected_beast.current_stamina -= skill.stamina_cost
-	print(selected_beast.name, " 剩余体力: ", selected_beast.current_stamina)
+	Log.debug(selected_beast.current_name, " 剩余体力: ", selected_beast.current_stamina)
 	# 检查是否还有足够体力行动
 	if not selected_beast.can_perform_action():
 		# 如果体力不够任何行动了，可以自动结束回合
@@ -77,7 +77,7 @@ func _input(event: InputEvent) -> void:
 			var target_grid_pos = tile_map_layer.local_to_map(mouse_pos)
 			var target_pixel_pos = tile_map_layer.map_to_local(target_grid_pos)
 			selected_beast.position = target_pixel_pos
-			print('移动到格子', target_grid_pos)
+			Log.debug("移动到格子", target_grid_pos)
 			selected_beast.get_node("Sprite2D").modulate = Color.WHITE
 	else:
 		# 情况B：点击到了一个或多个精灵
@@ -103,7 +103,7 @@ func _input(event: InputEvent) -> void:
 					# 2. 检查距离和体力
 					var distance = tile_map_layer.local_to_map(selected_beast.position).distance_to(tile_map_layer.local_to_map(top_beast.position))
 					if distance <= attack_skill.range and selected_beast.current_stamina > attack_skill.stamina_cost:
-						print(selected_beast.current_name, " 对 ", top_beast.current_name, " 使用了 ", attack_skill.skill_name)
+						Log.debug(selected_beast.current_name, " 对 ", top_beast.current_name, " 使用了 ", attack_skill.skill_name)
 						# 造成伤害
 						var final_damage = CombatManager.calculate_skill_damage(top_beast, selected_beast, attack_skill)
 						top_beast.take_damage(final_damage)
@@ -111,7 +111,7 @@ func _input(event: InputEvent) -> void:
 						CombatManager.process_skill_effects(top_beast, selected_beast, attack_skill)
 						_on_skill_used_successfully(attack_skill)
 					else:
-						print("距离过远或体力不足，无法攻击！")
+						Log.debug("距离过远或体力不足，无法攻击！")
 			else:
 			# 没有已选中的
 				if top_beast.can_perform_action():
@@ -119,7 +119,7 @@ func _input(event: InputEvent) -> void:
 						selected_beast.get_node("Sprite2D").modulate = Color.WHITE
 					selected_beast = top_beast
 					selected_beast.get_node("Sprite2D").modulate = Color.BLUE
-					print("选中了精灵：", selected_beast.current_name)
+					Log.debug("选中了精灵：", selected_beast.current_name)
 				else:
-					print(top_beast.current_name, " 体力不足，无法行动！")
+					Log.debug(top_beast.current_name, " 体力不足，无法行动！")
 	# get_viewport().set_input_as_handled() # 消耗事件

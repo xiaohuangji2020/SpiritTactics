@@ -41,7 +41,7 @@ func _ready():
 
 # 这个函数专门负责扫描文件夹并加载资源
 func _load_status_effects():
-	print("开始加载状态效果资源...")
+	Log.info("开始加载状态效果资源...")
 	# 定义我们要扫描的文件夹路径
 	var directory_path = "res://resources/status_effects/"
 	var dir = DirAccess.open(directory_path)
@@ -54,11 +54,11 @@ func _load_status_effects():
 				# 检查加载的资源是否是我们想要的类型
 				if effect_data is StatusEffectData:
 					_status_effects_dict[effect_data.effect_type] = effect_data
-					print("  - 已加载: ", file_name)
+					Log.info("  - 已加载: ", file_name)
 				else:
-					print("警告1003: 文件 ", file_name, " 不是一个有效的StatusEffectData资源。")
+					Log.warning("1003: 文件 ", file_name, " 不是一个有效的StatusEffectData资源。")
 	else:
-		print("错误1004: 无法找到状态效果资源目录: ", directory_path)
+		Log.error("1004: 无法找到状态效果资源目录: ", directory_path)
 
 # 全局查询函数
 func get_status_effect_data(effect_type: Enums.StatusEffect) -> StatusEffectData:

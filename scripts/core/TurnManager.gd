@@ -12,7 +12,7 @@ var current_turn_beast: Node2D = null # 当前行动的单位
 
 # 新增一个处理函数
 func on_beast_died(beast_node):
-	print("TurnManager收到了", beast_node.name, "的死亡通知。")
+	Log.debug("TurnManager收到了", beast_node.name, "的死亡通知。")
 	if all_beasts.has(beast_node):
 		all_beasts.erase(beast_node) # 从列表中移除
 
@@ -49,7 +49,7 @@ func _calculate_next_turn():
 			ticks_to_act = current_ticks
 			next_beast = beast
 	if next_beast == null:
-		print("错误：战场上没有可行动的单位！")
+		Log.info("战场上没有可行动的单位！")
 		is_battle_running = false
 		return
 
@@ -60,8 +60,8 @@ func _calculate_next_turn():
 		beast.current_stamina += roundi(ticks_to_act * effective_speed)
 
 	# 3. 将行动权交给最快的那个单位
-	print("时间推进了 ", ticks_to_act, " 个单位。")
-	print(next_beast.name, " 获得行动权！体力: ", next_beast.current_stamina)
+	Log.debug("时间推进了 ", ticks_to_act, " 个单位。")
+	Log.debug(next_beast.name, " 获得行动权！体力: ", next_beast.current_stamina)
 	current_turn_beast = next_beast # 记录当前行动者
 	is_waiting_for_action = true # 进入等待玩家操作的状态
 	emit_signal("beast_turn_started", next_beast) # 发出回合开始信号

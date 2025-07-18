@@ -15,7 +15,7 @@ func setup_battle(level_data: LevelData, units_parent: Node2D):
 
 func spawn_unit(setup_info: UnitData, parent_node: Node2D):
 	if not setup_info.beast_data:
-		print("错误1001：UnitSetup中缺少BeastData!")
+		Log.error("1002：UnitSetup中缺少BeastData!")
 		return
 	# 新建一个实例
 	var beast_instance = BEAST_SCENE.instantiate()

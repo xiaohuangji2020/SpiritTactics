@@ -21,19 +21,19 @@ func _ready():
 		# 我们可以顺便把节点名字也改了，方便调试
 		self.name = data.beast_name
 		current_name = data.beast_name
-		print("初始化精灵 ", current_name)
+		Log.debug("初始化精灵 ", current_name)
 		sprite_2d.texture =data.sprite_texture
 		#emit_signal("ready_and_initialized", self)
 	else:
-		print("警告：精灵 ", current_name, " 没有分配BeastData！")
+		Log.debug("警告：精灵 ", current_name, " 没有分配BeastData！")
 
 # 受伤
 func take_damage(amount: int):
 	current_hp -= amount
-	print(current_name, " 受到了 ", amount, " 点伤害，剩余HP: ", current_hp)
+	Log.debug(current_name, " 受到了 ", amount, " 点伤害，剩余HP: ", current_hp)
 	# 在这里可以触发受伤动画、显示伤害数字等
 	if current_hp <= 0:
-		print(current_name, " 已被击败！")
+		Log.debug(current_name, " 已被击败！")
 		emit_signal("died", self)
 		queue_free() # 暂时先直接从场景移除
 
@@ -53,9 +53,9 @@ func on_new_turn_starts():
 		current_stamina += data.speed
 	# 检查体力是否足够行动
 	if current_stamina >= 10:
-		print(current_name, " 体力恢复至 ", current_stamina, "，可以行动！")
+		Log.debug(current_name, " 体力恢复至 ", current_stamina, "，可以行动！")
 	else:
-		print(current_name, " 体力恢复至 ", current_stamina, "，尚不能行动。")
+		Log.debug(current_name, " 体力恢复至 ", current_stamina, "，尚不能行动。")
 
 	# --- 处理异常状态效果 ---
 	var effects_to_remove = []
@@ -64,11 +64,11 @@ func on_new_turn_starts():
 		if not effect_data: continue
 		# 1. 处理回合末伤害
 		if effect_data.damage_per_turn > 0:
-			print(current_name, " 因", effect_data.effect_type, "受到了伤害！")
+			Log.debug(current_name, " 因", effect_data.effect_type, "受到了伤害！")
 			take_damage(effect_data.damage_per_turn)
 		if effect_data.damage_per_turn_percent > 0.0:
 			var percent_damage = roundi(data.max_hp * effect_data.damage_per_turn_percent)
-			print(current_name, " 因", effect_data.effect_type, "受到了百分比伤害！")
+			Log.debug(current_name, " 因", effect_data.effect_type, "受到了百分比伤害！")
 			take_damage(percent_damage)
 		# 2. 处理自动解除
 		if effect_data.auto_remove_chance > 0.0 and randf() < effect_data.auto_remove_chance:
@@ -84,10 +84,10 @@ func can_perform_action() -> bool:
 	if current_stamina >= GameConfig.STAMINA_THRESHOLD_TO_ACT: # 首先检查基础的体力是否足够
 		for effect_data in get_all_active_effect_data():
 			if (effect_data.prevents_action):
-				print(current_name, " 因", effect_data.effect_type, "无法行动！")
+				Log.debug(current_name, " 因", effect_data.effect_type, "无法行动！")
 				return false
 			if effect_data.action_fail_chance > 0.0 and randf() < effect_data.action_fail_chance:
-				print(current_name, " 因", effect_data.effect_type, "行动失败！")
+				Log.debug(current_name, " 因", effect_data.effect_type, "行动失败！")
 				return false
 		return true
 	return false
@@ -96,13 +96,13 @@ func can_perform_action() -> bool:
 func apply_status_effect(effect_data: StatusEffectData):
 	if not active_status_effects.has(effect_data.effect_type):
 		active_status_effects[effect_data.effect_type] = effect_data.duration_in_turns
-		print(current_name, " 陷入了 ", Enums.StatusEffect.keys()[effect_data.effect_type], " 状态！")
+		Log.debug(current_name, " 陷入了 ", Enums.StatusEffect.keys()[effect_data.effect_type], " 状态！")
 
 # 移除一个状态
 func remove_status_effect(effect_type: Enums.StatusEffect):
 	if active_status_effects.has(effect_type):
 		active_status_effects.erase(effect_type)
-		print(current_name, " 的 ", Enums.StatusEffect.keys()[effect_type], " 状态解除了。")
+		Log.debug(current_name, " 的 ", Enums.StatusEffect.keys()[effect_type], " 状态解除了。")
 
 
 # 获取实际速度
@@ -140,7 +140,7 @@ func on_turn_started(beast_node):
 	# 确保是自己的回合
 	if beast_node != self:
 		return
-	print(current_name, " 的回合开始了！")
+	Log.debug(current_name, " 的回合开始了！")
 	# 这里是未来处理“回合开始时”触发的buff或特性的地方
 	# 比如“每回合开始时，防御力提升”
 
@@ -148,13 +148,13 @@ func on_turn_started(beast_node):
 func on_turn_ended(beast_node):
 	if beast_node != self:
 		return
-	print(current_name, " 的回合结束了。")
+	Log.debug(current_name, " 的回合结束了。")
 	# 这里是处理“回合结束时”效果的最佳位置
 	# 我们把之前的扣血逻辑搬到这里，这就修复了Bug
 	var effects_to_remove = []
 	for effect_data in get_all_active_effect_data():
 		if effect_data.damage_per_turn > 0:
-			print(current_name, " 因", effect_data.effect_type, "在回合结束时受到了伤害！")
+			Log.debug(current_name, " 因", effect_data.effect_type, "在回合结束时受到了伤害！")
 			take_damage(effect_data.damage_per_turn)
 		# ... 其他回合末结算逻辑 ...
 
