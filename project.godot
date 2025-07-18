@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 AttributeManager="*res://scripts/core/AttributeManager.gd"
 CombatManager="*res://scripts/core/CombatManager.gd"
 GameConfig="*res://scripts/core/GameConfig.gd"
+Log="*res://scripts/core/Log.gd"
 
 [display]
 

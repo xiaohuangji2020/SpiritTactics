@@ -10,7 +10,7 @@ extends Node2D
 
 func _ready() -> void:
 	if not current_level_data:
-		print("错误1002：没有分配关卡数据!")
+		Log.error("1001：没有分配关卡数据!")
 		return
 	# 调用BattleSetup来布置场景
 	battle_setup.setup_battle(current_level_data, units)
