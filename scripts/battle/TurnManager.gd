@@ -1,7 +1,6 @@
 # 回合管理器
 extends Node
 
-
 signal beast_turn_started(beast_node) # 行动开始信号
 signal beast_turn_ended(beast_node)   # 行动结束信号
 

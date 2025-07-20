@@ -1,10 +1,11 @@
 # 战斗场景管理
 extends Node2D
 
-@onready var turn_manager: Node = $TurnManager
 @onready var tile_map_layer: TileMapLayer = $TileMapLayer
 @onready var units: Node2D = $Units
-@onready var battle_setup: Node = $BattleSetup
+@onready var turn_manager: Node = $Utils/TurnManager
+@onready var damage_manager: Node = $Utils/DamageManager
+@onready var battle_setup: Node = $Utils/BattleSetup
 
 func _ready() -> void:
 	# 1. 从全局单例中读取数据
@@ -26,27 +27,8 @@ func _ready() -> void:
 		if beast.has_meta("grid_pos"):
 			var grid_pos = beast.get_meta("grid_pos")
 			beast.position = tile_map_layer.map_to_local(grid_pos)
-	# 连接TurnManager的信号
-	turn_manager.beast_turn_started.connect(_on_beast_turn_started)
 	# 开始战斗
 	turn_manager.start_battle(beasts_array)
-
-# 在_input函数中，当一次行动（移动或攻击）成功后
-func _on_skill_used_successfully(skill: SkillData):
-	selected_beast.current_stamina -= skill.stamina_cost
-	Log.debug(selected_beast.current_name, " 剩余体力: ", selected_beast.current_stamina)
-	# 检查是否还有足够体力行动
-	if not selected_beast.can_perform_action():
-		# 如果体力不够任何行动了，可以自动结束回合
-		_end_current_turn()
-
-func _end_current_turn():
-	if selected_beast == null: return
-	# 恢复单位的视觉状态
-	selected_beast.get_node("Sprite2D").modulate = Color.WHITE
-	selected_beast = null
-	# 通知TurnManager，玩家操作已完成
-	turn_manager.on_action_completed()
 
 # 当TurnManager分配了行动权
 func _on_beast_turn_started(beast_node):
@@ -106,10 +88,10 @@ func _input(event: InputEvent) -> void:
 					if distance <= attack_skill.range and selected_beast.current_stamina > attack_skill.stamina_cost:
 						Log.debug(selected_beast.current_name, " 对 ", top_beast.current_name, " 使用了 ", attack_skill.skill_name)
 						# 造成伤害
-						var final_damage = CombatManager.calculate_skill_damage(top_beast, selected_beast, attack_skill)
+						var final_damage = damage_manager.calculate_skill_damage(top_beast, selected_beast, attack_skill)
 						top_beast.take_damage(final_damage)
 						# 计算异常
-						CombatManager.process_skill_effects(top_beast, selected_beast, attack_skill)
+						damage_manager.process_skill_effects(top_beast, selected_beast, attack_skill)
 						_on_skill_used_successfully(attack_skill)
 					else:
 						Log.debug("距离过远或体力不足，无法攻击！")
@@ -124,3 +106,19 @@ func _input(event: InputEvent) -> void:
 				else:
 					Log.debug(top_beast.current_name, " 体力不足，无法行动！")
 	# get_viewport().set_input_as_handled() # 消耗事件
+
+# 在_input函数中，当一次行动（移动或攻击）成功后
+func _on_skill_used_successfully(skill: SkillData):
+	selected_beast.after_use_skill(skill)
+	# 检查是否还有足够体力行动
+	if not selected_beast.can_perform_action():
+		# 如果体力不够任何行动了，可以自动结束回合
+		_end_current_turn()
+
+func _end_current_turn():
+	if selected_beast == null: return
+	# 恢复单位的视觉状态
+	selected_beast.get_node("Sprite2D").modulate = Color.WHITE
+	selected_beast = null
+	# 通知TurnManager，玩家操作已完成
+	turn_manager.on_action_completed()

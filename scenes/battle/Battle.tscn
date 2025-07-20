@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://b2x7qg7bvv7nj"]
+[gd_scene load_steps=9 format=4 uid="uid://b2x7qg7bvv7nj"]
 
 [ext_resource type="Script" uid="uid://dof8qv1w4cdfh" path="res://scripts/battle/Battle.gd" id="1_vbfmk"]
 [ext_resource type="Texture2D" uid="uid://c2yd58rraplhb" path="res://assets/images/backgrounds/template.jpeg" id="3_kos6x"]
-[ext_resource type="Script" uid="uid://cm2o2b6w6ewc3" path="res://scripts/core/TurnManager.gd" id="4_2ckr4"]
+[ext_resource type="Script" uid="uid://cm2o2b6w6ewc3" path="res://scripts/battle/TurnManager.gd" id="4_2ckr4"]
+[ext_resource type="Script" uid="uid://by3day4th1m1u" path="res://scripts/battle/DamageManager.gd" id="4_vbfmk"]
 [ext_resource type="Script" uid="uid://1116dfyy0xe3" path="res://scripts/battle/BattleSetup.gd" id="5_q5nyf"]
 [ext_resource type="PackedScene" uid="uid://by87s31e42l5x" path="res://scenes/ui/log/CombatLogUI.tscn" id="6_mgs6c"]
 
@@ -283,10 +284,15 @@ tile_set = SubResource("TileSet_8viqo")
 offset = Vector2(960, 540)
 position_smoothing_enabled = true
 
-[node name="TurnManager" type="Node" parent="." groups=["turn_manager"]]
+[node name="Utils" type="Node" parent="."]
+
+[node name="TurnManager" type="Node" parent="Utils" groups=["turn_manager"]]
 script = ExtResource("4_2ckr4")
 
-[node name="BattleSetup" type="Node" parent="."]
+[node name="DamageManager" type="Node" parent="Utils"]
+script = ExtResource("4_vbfmk")
+
+[node name="BattleSetup" type="Node" parent="Utils"]
 script = ExtResource("5_q5nyf")
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -299,3 +305,5 @@ offset_left = 1099.0
 offset_top = 171.0
 offset_right = 515.32
 offset_bottom = -369.0
+
+[connection signal="beast_turn_started" from="Utils/TurnManager" to="." method="_on_beast_turn_started"]

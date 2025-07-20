@@ -27,6 +27,15 @@ func _ready():
 	else:
 		Log.debug("警告：精灵 ", current_name, " 没有分配BeastData！")
 
+# 使用技能前
+func before_use_skill(skill: SkillData):
+	pass
+
+# 使用技能后
+func after_use_skill(skill: SkillData):
+	current_stamina -= skill.stamina_cost
+	Log.debug(current_name, " 使用了技能：", skill.skill_name, " 消耗了", skill.stamina_cost, " 体力, 剩余", current_stamina, " 体力")
+
 # 受伤
 func take_damage(amount: int):
 	current_hp -= amount
@@ -36,48 +45,6 @@ func take_damage(amount: int):
 		Log.debug(current_name, " 已被击败！")
 		emit_signal("died", self)
 		queue_free() # 暂时先直接从场景移除
-
-# 这是一个新的辅助函数，它会返回该精灵当前所有激活状态的完整数据列表
-func get_all_active_effect_data() -> Array[StatusEffectData]:
-	var effect_data_array: Array[StatusEffectData] = []
-	for effect_type in active_status_effects.keys():
-		# 调用GameConfig的全局函数来获取数据
-		var effect_data = GameConfig.get_status_effect_data(effect_type)
-		if effect_data:
-			effect_data_array.append(effect_data)
-	return effect_data_array
-
-# 临时的轮次流转
-func on_new_turn_starts():
-	if data:
-		current_stamina += data.speed
-	# 检查体力是否足够行动
-	if current_stamina >= 10:
-		Log.debug(current_name, " 体力恢复至 ", current_stamina, "，可以行动！")
-	else:
-		Log.debug(current_name, " 体力恢复至 ", current_stamina, "，尚不能行动。")
-
-	# --- 处理异常状态效果 ---
-	var effects_to_remove = []
-	for effect_data in get_all_active_effect_data():
-		# 获取当前状态的数据资源 (我们需要一个新的辅助函数来做这件事)
-		if not effect_data: continue
-		# 1. 处理回合末伤害
-		if effect_data.damage_per_turn > 0:
-			Log.debug(current_name, " 因", effect_data.effect_type, "受到了伤害！")
-			take_damage(effect_data.damage_per_turn)
-		if effect_data.damage_per_turn_percent > 0.0:
-			var percent_damage = roundi(data.max_hp * effect_data.damage_per_turn_percent)
-			Log.debug(current_name, " 因", effect_data.effect_type, "受到了百分比伤害！")
-			take_damage(percent_damage)
-		# 2. 处理自动解除
-		if effect_data.auto_remove_chance > 0.0 and randf() < effect_data.auto_remove_chance:
-			effects_to_remove.append(effect_data.effect_type)
-		active_status_effects[effect_data.effect_type] -= 1
-		if active_status_effects[effect_data.effect_type] <= 0:
-			effects_to_remove.append(effect_data.effect_type)
-	for effect_type in effects_to_remove:
-		remove_status_effect(effect_type)
 
 # 是否可行动
 func can_perform_action() -> bool:
@@ -104,8 +71,17 @@ func remove_status_effect(effect_type: Enums.StatusEffect):
 		active_status_effects.erase(effect_type)
 		Log.debug(current_name, " 的 ", Enums.StatusEffect.keys()[effect_type], " 状态解除了。")
 
+# 获取实时所有异常
+func get_all_active_effect_data() -> Array[StatusEffectData]:
+	var effect_data_array: Array[StatusEffectData] = []
+	for effect_type in active_status_effects.keys():
+		# 调用GameConfig的全局函数来获取数据
+		var effect_data = GameConfig.get_status_effect_data(effect_type)
+		if effect_data:
+			effect_data_array.append(effect_data)
+	return effect_data_array
 
-# 获取实际速度
+# 获取实时速度
 func get_effective_speed() -> float:
 	# 如果没有数据，速度为0
 	if not data:
@@ -121,21 +97,21 @@ func get_effective_speed() -> float:
 	# 返回最终计算结果
 	return base_speed * speed_modifier
 
-# 获取实际攻击
+# 获取实时攻击
 func get_effective_attack_modifier() -> float:
 	var modifier = 1.0
 	for effect_data in get_all_active_effect_data():
 		modifier *= effect_data.attack_modifier
 	return modifier
 
-# 获取实际防御
+# 获取实时防御
 func get_effective_defense_modifier() -> float:
 	var modifier = 1.0
 	for effect_data in get_all_active_effect_data():
 		modifier *= effect_data.defense_modifier
 	return modifier
 
-
+# 回合开始hook
 func on_turn_started(beast_node):
 	# 确保是自己的回合
 	if beast_node != self:
@@ -144,7 +120,7 @@ func on_turn_started(beast_node):
 	# 这里是未来处理“回合开始时”触发的buff或特性的地方
 	# 比如“每回合开始时，防御力提升”
 
-
+# 回合结束hook
 func on_turn_ended(beast_node):
 	if beast_node != self:
 		return
@@ -156,6 +132,13 @@ func on_turn_ended(beast_node):
 		if effect_data.damage_per_turn > 0:
 			Log.debug(current_name, " 因", effect_data.effect_type, "在回合结束时受到了伤害！")
 			take_damage(effect_data.damage_per_turn)
+		if effect_data.damage_per_turn_percent > 0.0:
+			var percent_damage = roundi(data.max_hp * effect_data.damage_per_turn_percent)
+			Log.debug(current_name, " 因", effect_data.effect_type, "受到了百分比伤害！")
+			take_damage(percent_damage)
+		# 2. 处理自动解除
+		if effect_data.auto_remove_chance > 0.0 and randf() < effect_data.auto_remove_chance:
+			effects_to_remove.append(effect_data.effect_type)
 		# ... 其他回合末结算逻辑 ...
 
 		active_status_effects[effect_data.effect_type] -= 1
