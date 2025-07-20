@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=4 uid="uid://b2x7qg7bvv7nj"]
+[gd_scene load_steps=9 format=4 uid="uid://b2x7qg7bvv7nj"]
 
 [ext_resource type="Script" uid="uid://dof8qv1w4cdfh" path="res://scripts/core/BattleScene.gd" id="1_eo800"]
 [ext_resource type="Texture2D" uid="uid://c2yd58rraplhb" path="res://assets/images/backgrounds/template.jpeg" id="1_n0n4v"]
 [ext_resource type="Resource" uid="uid://b2pdlk23pkls5" path="res://resources/levels/Level01.tres" id="2_q6c5s"]
 [ext_resource type="Script" uid="uid://1116dfyy0xe3" path="res://scripts/core/BattleSetup.gd" id="5_n64lt"]
 [ext_resource type="Script" uid="uid://cm2o2b6w6ewc3" path="res://scripts/core/TurnManager.gd" id="5_q6c5s"]
+[ext_resource type="PackedScene" uid="uid://by87s31e42l5x" path="res://scenes/ui/log/CombatLogUI.tscn" id="6_n64lt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wy4tw"]
 texture = ExtResource("1_n0n4v")
@@ -289,3 +290,14 @@ script = ExtResource("5_q6c5s")
 
 [node name="BattleSetup" type="Node" parent="."]
 script = ExtResource("5_n64lt")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="CombatLogUi" parent="UI" instance=ExtResource("6_n64lt")]
+anchors_preset = -1
+anchor_right = 0.304
+anchor_bottom = 0.5
+offset_left = 1099.0
+offset_top = 171.0
+offset_right = 515.32
+offset_bottom = -369.0

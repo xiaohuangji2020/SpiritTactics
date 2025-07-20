@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://by87s31e42l5x"]
+
+[ext_resource type="Script" uid="uid://ckw5raooobrtq" path="res://scripts/ui/log/CombatLogUI.gd" id="1_g3543"]
+
+[node name="CombatLogUi" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_g3543")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_right = 744.0
+offset_bottom = 814.0
+bbcode_enabled = true
+text = "系统日志
+"
