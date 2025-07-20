@@ -12,7 +12,7 @@ const Enums = preload("res://scripts/core/Enums.gd")
 # 每回合固定伤害（用于烧伤、中毒）
 @export var damage_per_turn: int = 0
 # 每回合基于最大HP百分比的伤害（更高级的中毒/烧伤）
-@export var damage_per_turn_percent: float = 0.0 
+@export var damage_per_turn_percent: float = 0.0
 # 每回合自动解除的概率 (0.0到1.0，用于沉睡)
 @export var auto_remove_chance: float = 0.0
 

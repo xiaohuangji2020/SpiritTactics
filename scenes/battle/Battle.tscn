@@ -1,14 +1,13 @@
-[gd_scene load_steps=9 format=4 uid="uid://b2x7qg7bvv7nj"]
+[gd_scene load_steps=8 format=4 uid="uid://b2x7qg7bvv7nj"]
 
-[ext_resource type="Script" uid="uid://dof8qv1w4cdfh" path="res://scripts/core/BattleScene.gd" id="1_eo800"]
-[ext_resource type="Texture2D" uid="uid://c2yd58rraplhb" path="res://assets/images/backgrounds/template.jpeg" id="1_n0n4v"]
-[ext_resource type="Resource" uid="uid://b2pdlk23pkls5" path="res://resources/levels/Level01.tres" id="2_q6c5s"]
-[ext_resource type="Script" uid="uid://1116dfyy0xe3" path="res://scripts/core/BattleSetup.gd" id="5_n64lt"]
-[ext_resource type="Script" uid="uid://cm2o2b6w6ewc3" path="res://scripts/core/TurnManager.gd" id="5_q6c5s"]
-[ext_resource type="PackedScene" uid="uid://by87s31e42l5x" path="res://scenes/ui/log/CombatLogUI.tscn" id="6_n64lt"]
+[ext_resource type="Script" uid="uid://dof8qv1w4cdfh" path="res://scripts/battle/Battle.gd" id="1_vbfmk"]
+[ext_resource type="Texture2D" uid="uid://c2yd58rraplhb" path="res://assets/images/backgrounds/template.jpeg" id="3_kos6x"]
+[ext_resource type="Script" uid="uid://cm2o2b6w6ewc3" path="res://scripts/core/TurnManager.gd" id="4_2ckr4"]
+[ext_resource type="Script" uid="uid://1116dfyy0xe3" path="res://scripts/battle/BattleSetup.gd" id="5_q5nyf"]
+[ext_resource type="PackedScene" uid="uid://by87s31e42l5x" path="res://scenes/ui/log/CombatLogUI.tscn" id="6_mgs6c"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wy4tw"]
-texture = ExtResource("1_n0n4v")
+texture = ExtResource("3_kos6x")
 texture_region_size = Vector2i(128, 128)
 0:0/0 = 0
 1:0/0 = 0
@@ -272,8 +271,7 @@ tile_size = Vector2i(128, 128)
 sources/0 = SubResource("TileSetAtlasSource_wy4tw")
 
 [node name="BattleScene" type="Node2D"]
-script = ExtResource("1_eo800")
-current_level_data = ExtResource("2_q6c5s")
+script = ExtResource("1_vbfmk")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAABAAYAAAAAAAAAAAABAAcAAAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAACAAUAAAAAAAAAAAACAAYAAAAAAAAAAAACAAcAAAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAAAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAcAAAAAAAAAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAUAAAAAAAAAAAAHAAYAAAAAAAAAAAAHAAcAAAAAAAAAAAA=")
@@ -286,14 +284,14 @@ offset = Vector2(960, 540)
 position_smoothing_enabled = true
 
 [node name="TurnManager" type="Node" parent="." groups=["turn_manager"]]
-script = ExtResource("5_q6c5s")
+script = ExtResource("4_2ckr4")
 
 [node name="BattleSetup" type="Node" parent="."]
-script = ExtResource("5_n64lt")
+script = ExtResource("5_q5nyf")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="CombatLogUi" parent="UI" instance=ExtResource("6_n64lt")]
+[node name="CombatLogUi" parent="UI" instance=ExtResource("6_mgs6c")]
 anchors_preset = -1
 anchor_right = 0.304
 anchor_bottom = 0.5

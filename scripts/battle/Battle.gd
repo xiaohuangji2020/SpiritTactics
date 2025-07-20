@@ -1,16 +1,17 @@
 # 战斗场景管理
 extends Node2D
 
-@export var current_level_data: LevelData
-
 @onready var turn_manager: Node = $TurnManager
 @onready var tile_map_layer: TileMapLayer = $TileMapLayer
 @onready var units: Node2D = $Units
 @onready var battle_setup: Node = $BattleSetup
 
 func _ready() -> void:
+	# 1. 从全局单例中读取数据
+	var current_level_info = GameManager.currentLevelInfo
+	var current_level_data = current_level_info.tres
 	if not current_level_data:
-		Log.error("1001：没有分配关卡数据!")
+		Log.error("1001：关卡数据错误!")
 		return
 	# 调用BattleSetup来布置场景
 	battle_setup.setup_battle(current_level_data, units)

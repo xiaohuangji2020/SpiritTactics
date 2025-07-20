@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvubi3nv6hufu"]
+
+[ext_resource type="Script" uid="uid://cjwywlja4o6fg" path="res://scripts/main/Main.gd" id="1_nha0i"]
+[ext_resource type="Theme" uid="uid://bsaw2ws6mm7nn" path="res://resources/theme/MainTheme.tres" id="1_q24mn"]
+[ext_resource type="Texture2D" uid="uid://bgtrjjb72r8rg" path="res://assets/images/backgrounds/bg.jpeg" id="1_u1xfj"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_q24mn")
+script = ExtResource("1_nha0i")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_u1xfj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -20.0
+offset_right = 36.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "开始游戏"
+
+[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]

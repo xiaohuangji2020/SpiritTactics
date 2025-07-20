@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="SpiritTactics"
-run/main_scene="uid://b2x7qg7bvv7nj"
+run/main_scene="uid://cvubi3nv6hufu"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -21,6 +21,7 @@ AttributeManager="*res://scripts/core/AttributeManager.gd"
 CombatManager="*res://scripts/core/CombatManager.gd"
 GameConfig="*res://scripts/core/GameConfig.gd"
 Log="*res://scripts/core/Log.gd"
+GameManager="*res://scripts/core/GameManager.gd"
 
 [display]
 

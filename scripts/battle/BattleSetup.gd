@@ -1,8 +1,9 @@
 # 战场管理器，根据LevelData生成战场
 extends Node
 
-const BEAST_SCENE = preload("res://scenes/entities/Beast.tscn")
+const BEAST = preload("res://scenes/entities/Beast.tscn")
 
+# 根据关卡信息设置战场
 func setup_battle(level_data: LevelData, units_parent: Node2D):
 	# 清理旧单位
 	for child in units_parent.get_children():
@@ -18,7 +19,7 @@ func spawn_unit(setup_info: UnitData, parent_node: Node2D):
 		Log.error("1002：UnitSetup中缺少BeastData!")
 		return
 	# 新建一个实例
-	var beast_instance = BEAST_SCENE.instantiate()
+	var beast_instance = BEAST.instantiate()
 	# 赋值
 	beast_instance.data = setup_info.beast_data
 	# 放到场景树中
