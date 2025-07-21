@@ -10,11 +10,11 @@ func setup_battle(level_data: LevelData, units_parent: Node2D):
 		child.queue_free()
 	# 生成玩家单位
 	for unit_setup in level_data.play_units:
-		spawn_unit(unit_setup, units_parent)
+		_spawn_unit(unit_setup, units_parent)
 	for unit_setup in level_data.enemy_units:
-		spawn_unit(unit_setup, units_parent)
+		_spawn_unit(unit_setup, units_parent)
 
-func spawn_unit(setup_info: UnitData, parent_node: Node2D):
+func _spawn_unit(setup_info: UnitData, parent_node: Node2D):
 	if not setup_info.beast_data:
 		Log.error("1002：UnitSetup中缺少BeastData!")
 		return
