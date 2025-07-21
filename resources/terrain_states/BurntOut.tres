@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TerrainStateData" load_steps=2 format=3 uid="uid://cw6tstya2trjq"]
+
+[ext_resource type="Script" uid="uid://difr1lmuaunpc" path="res://scripts/data/TerrainStateData.gd" id="1_7trd2"]
+
+[resource]
+script = ExtResource("1_7trd2")
+state = 2
+duration = 1
+damage_per_turn = 0
+damage_attribute = 0
+grants_temporary_attribute = 0
+makes_flammable = false
+metadata/_custom_type_script = "uid://difr1lmuaunpc"

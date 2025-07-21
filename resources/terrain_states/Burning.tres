@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TerrainStateData" load_steps=3 format=3 uid="uid://di3hdhe81bn5g"]
+
+[ext_resource type="Script" uid="uid://difr1lmuaunpc" path="res://scripts/data/TerrainStateData.gd" id="1_y5wtu"]
+[ext_resource type="Resource" uid="uid://cw6tstya2trjq" path="res://resources/terrain_states/BurntOut.tres" id="2_llwh1"]
+
+[resource]
+script = ExtResource("1_y5wtu")
+state = 1
+duration = 2
+damage_per_turn = 10
+damage_attribute = 2
+grants_temporary_attribute = 2
+makes_flammable = false
+successor_state_data = ExtResource("2_llwh1")
+metadata/_custom_type_script = "uid://difr1lmuaunpc"
