@@ -1,11 +1,11 @@
-# 战斗场景管理
+# 战斗场景
 extends Node2D
 
 @onready var tile_map_battle: TileMapLayer = $TileMap/Battle
 @onready var units: Node2D = $Units
 @onready var turn_manager: Node = $Utils/TurnManager
 @onready var damage_manager: Node = $Utils/DamageManager
-@onready var battle_setup: Node = $Utils/BattleSetup
+@onready var setup_manager: Node = $Utils/SetupManager
 var selected_beast: Node2D = null
 
 func _ready() -> void:
@@ -15,8 +15,8 @@ func _ready() -> void:
 	if not current_level_data:
 		Log.error("1001：关卡数据错误!")
 		return
-	# 调用BattleSetup来布置场景
-	battle_setup.setup_battle(current_level_data, units)
+	# 调用SetupManger来布置场景
+	setup_manager.setup_battle(current_level_data, units)
 	# 等待整个项目ready，区别于await self.ready
 	await get_tree().process_frame
 	# 设置位置

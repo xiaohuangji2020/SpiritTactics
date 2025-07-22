@@ -1,4 +1,4 @@
-# 战场管理器，根据LevelData生成战场
+# 初始化管理器，根据LevelData生成战场
 extends Node
 
 const BEAST = preload("res://scenes/entities/Beast.tscn")
