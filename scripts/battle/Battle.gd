@@ -1,7 +1,7 @@
 # 战斗场景管理
 extends Node2D
 
-@onready var tile_map_layer: TileMapLayer = $TileMapLayer
+@onready var tile_map_battle: TileMapLayer = $TileMap/Battle
 @onready var units: Node2D = $Units
 @onready var turn_manager: Node = $Utils/TurnManager
 @onready var damage_manager: Node = $Utils/DamageManager
@@ -26,7 +26,7 @@ func _ready() -> void:
 			beasts_array.append(beast)
 		if beast.has_meta("grid_pos"):
 			var grid_pos = beast.get_meta("grid_pos")
-			beast.position = tile_map_layer.map_to_local(grid_pos)
+			beast.position = tile_map_battle.map_to_local(grid_pos)
 	# 开始战斗
 	turn_manager.start_battle(beasts_array)
 
@@ -57,11 +57,12 @@ func _input(event: InputEvent) -> void:
 	if results.is_empty():
 		# 情况A：点击到了空白区域
 		if selected_beast != null and selected_beast.can_perform_action():
-			var target_grid_pos = tile_map_layer.local_to_map(mouse_pos)
-			var target_pixel_pos = tile_map_layer.map_to_local(target_grid_pos)
+			var target_grid_pos = tile_map_battle.local_to_map(mouse_pos)
+			var target_pixel_pos = tile_map_battle.map_to_local(target_grid_pos)
 			selected_beast.position = target_pixel_pos
 			Log.debug("移动到格子", target_grid_pos)
 			selected_beast.get_node("Sprite2D").modulate = Color.WHITE
+			selected_beast = null
 	else:
 		# 情况B：点击到了一个或多个精灵
 		var top_beast = null
@@ -84,7 +85,7 @@ func _input(event: InputEvent) -> void:
 					# 1. 获取攻击技能 (我们先假设第一个技能就是攻击)
 					var attack_skill = selected_beast.data.skills[0]
 					# 2. 检查距离和体力
-					var distance = tile_map_layer.local_to_map(selected_beast.position).distance_to(tile_map_layer.local_to_map(top_beast.position))
+					var distance = tile_map_battle.local_to_map(selected_beast.position).distance_to(tile_map_battle.local_to_map(top_beast.position))
 					if distance <= attack_skill.range and selected_beast.current_stamina > attack_skill.stamina_cost:
 						Log.debug(selected_beast.current_name, " 对 ", top_beast.current_name, " 使用了 ", attack_skill.skill_name)
 						# 造成伤害

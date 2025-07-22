@@ -10,3 +10,4 @@ const Enums = preload("res://scripts/core/Enums.gd")
 @export var max_hp: int = 100
 @export var speed: int = 5 # 速度决定体力恢复速度
 @export var skills: Array[SkillData]
+@export var movement: int = 3 # 移动力

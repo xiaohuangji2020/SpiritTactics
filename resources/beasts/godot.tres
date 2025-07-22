@@ -13,4 +13,5 @@ sprite_texture = ExtResource("3_3fe34")
 max_hp = 200
 speed = 10
 skills = Array[ExtResource("2_3fe34")]([ExtResource("3_bqmui")])
+movement = 3
 metadata/_custom_type_script = "uid://cmjamtfmisj1r"
