@@ -8,6 +8,7 @@ anchors_preset = 0
 script = ExtResource("1_g3543")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
 offset_right = 744.0
 offset_bottom = 814.0
 bbcode_enabled = true

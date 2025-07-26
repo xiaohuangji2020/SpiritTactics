@@ -7,8 +7,8 @@
 [ext_resource type="Script" uid="uid://cm2o2b6w6ewc3" path="res://scripts/battle/TurnManager.gd" id="4_2ckr4"]
 [ext_resource type="Texture2D" uid="uid://byw187bmp5id1" path="res://assets/images/backgrounds/move.png" id="4_q5nyf"]
 [ext_resource type="Script" uid="uid://by3day4th1m1u" path="res://scripts/battle/DamageManager.gd" id="4_vbfmk"]
-[ext_resource type="Script" uid="uid://1116dfyy0xe3" path="res://scripts/battle/SetupManager.gd" id="5_q5nyf"]
 [ext_resource type="PackedScene" uid="uid://by87s31e42l5x" path="res://scenes/ui/log/CombatLogUI.tscn" id="6_mgs6c"]
+[ext_resource type="Script" path="res://scripts/battle/SetupManager.gd" id="8_q5nyf"]
 [ext_resource type="Script" uid="uid://dbtlhnsak2i31" path="res://scripts/battle/MapManager.gd" id="9_q5nyf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nyp61"]
@@ -67,7 +67,7 @@ script = ExtResource("4_2ckr4")
 script = ExtResource("4_vbfmk")
 
 [node name="SetupManager" type="Node" parent="Utils"]
-script = ExtResource("5_q5nyf")
+script = ExtResource("8_q5nyf")
 
 [node name="MapManager" type="Node" parent="Utils"]
 script = ExtResource("9_q5nyf")

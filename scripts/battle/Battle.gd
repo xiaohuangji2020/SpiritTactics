@@ -6,7 +6,10 @@ extends Node2D
 @onready var turn_manager: Node = $Utils/TurnManager
 @onready var damage_manager: Node = $Utils/DamageManager
 @onready var setup_manager: Node = $Utils/SetupManager
+@onready var map_manager: Node = $Utils/MapManager
+
 var selected_beast: Node2D = null
+var movable_tiles = []
 
 func _ready() -> void:
 	# 1. 从全局单例中读取数据
@@ -97,6 +100,8 @@ func _handle_move(mouse_pos):
 		selected_beast.position = target_pixel_pos
 		Log.debug("移动到格子", target_grid_pos)
 		_show_select_effect(selected_beast, false)
+		clear_highlight()
+		movable_tiles.clear()
 		selected_beast = null
 
 func _handle_attack(top_beast):
@@ -119,9 +124,36 @@ func _handle_select(top_beast):
 	if top_beast.can_perform_action():
 		selected_beast = top_beast
 		_show_select_effect(selected_beast, true)
+		_on_character_selected(selected_beast)
 		Log.debug("选中了精灵：", selected_beast.current_name)
 	else:
 		Log.debug(top_beast.current_name, " 体力不足，无法行动（无法选择）！")
+
+# 在你的主游戏场景或UI控制器中
+
+# 被选中时高亮
+func _on_character_selected(beast):
+	selected_beast = beast
+	var start_tile = tile_map_battle.local_to_map(beast.global_position)
+	# 1. 计算可移动范围
+	movable_tiles = map_manager.get_reachable_tiles(start_tile, beast.data.movement)
+	# 2. 显示高亮
+	highlight_tiles(movable_tiles)
+
+# --- 高亮显示的辅助函数 ---
+func highlight_tiles(tiles: Array[Vector2i]):
+	# 实现高亮逻辑，例如：
+	# 1. 在TileMap上添加一个新的图层 (Layer)专门用于显示高亮
+	# 2. 在该图层上，为每个可移动格子设置一个蓝色或绿色的高亮瓦片
+	for tile_pos in tiles:
+		Log.debug(tile_pos)
+		# tile_map_battle.set_cell(highlight_layer, tile_pos, source_id, atlas_coords_of_highlight_tile)
+		pass
+
+func clear_highlight():
+	# 清除高亮图层的所有瓦片
+	# tile_map_battle.clear_layer(highlight_layer)
+	pass
 
 func _show_select_effect(beast, isSelected: bool = false):
 	if (isSelected):
